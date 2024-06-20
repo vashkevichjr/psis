@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Отзывы</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body style="background: url(&quot;/img/bg.jpg&quot;) top / cover;">
+<div th:insert="blocks/nav :: nav"></div>
+<main class="page projects-page mt-5">
+    <section class="portfolio-block projects-with-sidebar">
+        <div class="container">
+            <div class="heading">
+                <h2>Отзывы</h2>
+            </div>
+            <form th:if="${role == 'CLIENT'}" action="/reviews/add/" method="post"
+                  class="bg-light p-2 mb-5 rounded">
+                <div class="row ">
+                    <div class="col">
+                        <input class="form-control" type="text" name="text" required
+                               placeholder="Добавьте отзыв">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-warning w-100" type="submit">Добавить</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row bg-light p-2 rounded">
+                <div th:each="i : ${reviews}" class="col-12 mb-2">
+                    <p class="lead">
+                        <span th:text="${i.owner.username}"></span>
+                        <span>|</span>
+                        <span th:text="${i.date}"></span>
+                    </p>
+                    <p th:text="${i.text}"></p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>
