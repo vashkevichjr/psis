@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${food.name}"></title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body style="background: url(&quot;/img/bg.jpg&quot;) top / cover;">
+<div th:insert="blocks/nav :: nav"></div>
+<main class="page project-page mt-5">
+    <section class="portfolio-block project">
+        <div class="container">
+            <div class="heading">
+                <h2 th:text="${food.name}"></h2>
+            </div>
+            <div class="d-xl-flex justify-content-xl-center" style="margin-bottom: 30px;">
+                <img class="d-xl-flex justify-content-xl-center align-items-xl-center" th:src="'/img/' + ${food.photo}"
+                     height="400px" style="border-radius: 50px;"/>
+            </div>
+            <div th:if="${role == 'MANAGER'}">
+                <div class="d-xl-flex justify-content-xl-center" style="margin-bottom: 30px;"
+                     th:if="${food.restaurant.fio == user.restaurant.fio}">
+                    <a class="btn btn-warning" th:href="'/foods/edit/' + ${food.id}" style="margin-right: 10px">Редактировать</a>
+                    <a class="btn btn-danger" th:href="'/foods/delete/' + ${food.id}">Удалить</a>
+                </div>
+            </div>
+            <form class="bg-light" style="margin-bottom: 20px;" th:action="'/foods/ordering/' + ${food.id}" method="post">
+                <p class="lead">Выберите дату и время заказа</p>
+                <input class="form-control mb-2" type="date" name="date" required>
+                <input class="form-control mb-2" type="time" name="time" required="">
+                <input class="form-control mb-2" type="number" name="count" required placeholder="Введите количество" min="1" step="1" max="100">
+                <select name="paymentType" required class="form-control mb-2">
+                    <option th:each="i : ${paymentTypes}" th:value="${i}" th:label="${i.name}"></option>
+                </select>
+                <button class="btn btn-warning w-100" type="submit">Заказать</button>
+            </form>
+            <div class="row bg-light border rounded">
+                <div class="col-12 col-md-6 offset-md-1">
+                    <h3>Описание</h3>
+                    <p class="fs-5" th:text="${food.description}"></p>
+                </div>
+                <div class="col-12 col-md-3 offset-md-1 meta">
+                    <div class="tags">
+                        <span class="fs-5 meta-heading">Категория:&nbsp;
+                            <span class="meta-heading" th:text="${food.category.name}"></span>
+                        </span>
+                        <span class="fs-5 meta-heading">Заведение:&nbsp;
+                            <span class="meta-heading" th:text="${food.restaurant.fio}"></span>
+                        </span>
+                        <span class="fs-5 meta-heading">Цена:&nbsp;
+                            <span class="meta-heading" th:text="${food.price}"></span>
+                        </span>
+                        <span class="fs-5 meta-heading">Вес:&nbsp;
+                            <span class="meta-heading" th:text="${food.weight + ' грамм'}"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+</html>

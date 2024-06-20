@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Меню</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body style="background: url(&quot;/img/bg.jpg&quot;) top / cover;">
+<div th:insert="blocks/nav :: nav"></div>
+<main class="page projects-page mt-5">
+    <section class="portfolio-block projects-with-sidebar">
+        <div class="container">
+            <div class="heading">
+                <h2>Меню</h2>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <form class="bg-light rounded" action="/search" method="post">
+                        <p style="margin-bottom: 5px;">Название еды</p>
+                        <input class="form-control" type="text" style="margin-bottom: 5px;" name="name"
+                               th:value="${name}">
+                        <p style="margin-bottom: 5px;">Категория</p>
+                        <select class="form-select" style="margin-bottom: 10px;" required="" name="categoryId">
+                            <option th:each="c : ${categories}" th:value="${c.id}" th:label="${c.name}"
+                                    th:selected="${c.id == selectedCId}"></option>
+                        </select>
+                        <button class="btn btn-warning" type="submit" style="margin-right: 5px;margin-bottom: 5px;">
+                            Поиск
+                        </button>
+                        <a class="btn btn-secondary" role="button" href="/"
+                           style="color: var(--bs-btn-disabled-color);">Сброс</a>
+                    </form>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div th:each="n : ${foods}" class="col-4 project-sidebar-card">
+                            <div class="bg-light p-3 shadow rounded">
+                                <a th:href="'/foods/' + ${n.id}">
+                                    <img class="img-fluid image scale-on-hover" th:src="'/img/' + ${n.photo}"
+                                         style="border-radius: 10px;">
+                                </a>
+                                <p class="fs-4 m-0 text-center" th:text="${n.name}"></p>
+                                <p class="fs-5 m-0">Цена&nbsp;<span th:text="${n.price}"></span></p>
+                                <p class="fs-5 m-0">Категория&nbsp;<span th:text="${n.category.name}"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>
